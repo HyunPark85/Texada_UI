@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 8088;
-const users_data_service = require('./public/js/UsersDataService');
+const productService = require('./public/js/ProductService');
 var body_parser = require('body-parser');
 var cors = require('cors');
 
@@ -11,7 +11,7 @@ app.use(body_parser.json());
 app.use(cors());
 
 app.get('/products', function (req, res) {
-    users_data_service.getProducts()
+    productService.getProducts()
         .then((products) => {
             res.json(products);
         })
@@ -19,7 +19,7 @@ app.get('/products', function (req, res) {
 })
 
 app.get('/products/:id/locations', function (req, res) {
-    users_data_service.getLocationsById(req.params.id)
+    productService.getLocationsById(req.params.id)
         .then((products) => {
             res.json(products);
         })
@@ -27,7 +27,7 @@ app.get('/products/:id/locations', function (req, res) {
 })
 
 app.get('/products/:id/locations/:locationId', function (req, res) {
-    users_data_service.getLocationById(req.params.id, req.params.locationId)
+    productService.getLocationById(req.params.id, req.params.locationId)
         .then((products) => {
             res.json(products);
         })
@@ -35,7 +35,7 @@ app.get('/products/:id/locations/:locationId', function (req, res) {
 })
 
 app.put('/products/:id/locations/:locationId', function (req, res) {
-    users_data_service.findByIdUpdate(req.params.id, req.params.locationId, req.body)
+    productService.findByIdUpdate(req.params.id, req.params.locationId, req.body)
         .then((products) => {
             res.json(products);
         })
@@ -43,7 +43,7 @@ app.put('/products/:id/locations/:locationId', function (req, res) {
 })
 
 app.delete('/products/:id/locations/:locationId', function (req, res) {
-    users_data_service.deleteById(req.params.id, req.params.locationId)
+    productService.deleteById(req.params.id, req.params.locationId)
         .then((products) => {
             res.json(products);
         })
@@ -51,7 +51,7 @@ app.delete('/products/:id/locations/:locationId', function (req, res) {
 })
 
 app.post('/products', function (req, res) {
-    users_data_service.createProduct(req.body)
+    productService.createProduct(req.body)
         .then((products) => {
             res.json(products);
         })
@@ -59,7 +59,7 @@ app.post('/products', function (req, res) {
 })
 
 app.get('/products/:id', function (req, res) {
-    users_data_service.findProductById(req.params.id)
+    productService.findProductById(req.params.id)
         .then((targetProduct) => {
             res.json(targetProduct);
         })
@@ -67,7 +67,7 @@ app.get('/products/:id', function (req, res) {
 })
 
 app.post('/products/:id/locations', function (req, res) {
-    users_data_service.createLocation(req.params.id, req.body)
+    productService.createLocation(req.params.id, req.body)
         .then((products) => {
             res.json(products);
         })
@@ -75,7 +75,7 @@ app.post('/products/:id/locations', function (req, res) {
 })
 
 app.get('/reports', function (req, res) {
-    users_data_service.getAllProducts(req)
+    productService.getAllProducts(req)
         .then((products) => {
             res.json(products);
         })
@@ -83,7 +83,7 @@ app.get('/reports', function (req, res) {
 })
 
 app.post('/products', function (req, res) {
-    users_data_service.createProduct(req.body).then((newProduct) => {
+    productService.createProduct(req.body).then((newProduct) => {
         res.json(newProduct);
     })
         .catch((err) => { res.json(err) })
@@ -91,13 +91,13 @@ app.post('/products', function (req, res) {
 
 
 app.put('/products/:id', function (req, res) {
-    users_data_service.findByIdUpdate(req.params.id, req.body).then((data) => {
+    productService.findByIdUpdate(req.params.id, req.body).then((data) => {
         res.json(data);
     })
         .catch((err) => { })
 })
 
-users_data_service.initialize()
+productService.initialize()
     .then(() => {
         app.listen(PORT, () => {
             console.log("app is listening on " + PORT);
